@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Denzel's movies</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/style.css">
+    <script>
+        const getRandomMovie = () => {
+            var myHeaders = new Headers();
+
+            var myInit = {
+                method: 'GET',
+                headers: myHeaders,
+                mode: 'cors',
+                cache: 'default'
+            };
+
+            var myRequest = new Request('/movies', myInit);
+
+            fetch(myRequest, myInit)
+                .then(response => {
+                    return response.json();
+                })
+                .then(json => {
+                    const movieTitle = document.getElementById("movie-title");
+                    const movieSynopsis = document.getElementById("movie-synopsis");
+                    const movieMetascore = document.getElementById("movie-metascore");
+
+                    while(movieTitle.firstChild){
+                        movieTitle.removeChild(movie.firstChild);
+                    }
+
+                    while(movieSynopsis.firstChild){
+                        movieSynopsis.removeChild(movie.firstChild);
+                    }
+
+                    while(movieMetascore.firstChild){
+                        movieMetascore.removeChild(movie.firstChild);
+                    }
+
+                    const title = document.createElement("p");
+                    const synopsis = document.createElement("p");
+                    const metascore = document.createElement("p");
+
+                    const nodeTitle = document.createTextNode(json.title);
+                    const nodeSynopsis = document.createTextNode(json.synopsis);
+                    const nodeMetascore = document.createTextNode(json.metascore);
+
+                    title.className = "title";
+                    synopsis.className = "synopsis";
+                    metascore.className = "metascore";
+
+                    title.appendChild(nodeTitle);
+                    synopsis.appendChild(nodeSynopsis);
+                    metascore.appendChild(nodeMetascore);
+                    movieTitle.appendChild(title);
+                    movieSynopsis.appendChild(synopsis);
+                    movieMetascore.appendChild(metascore);
+                })
+                .catch(e => { console.log(e) });
+        };
+
+        window.onload = function() {
+            getRandomMovie();
+        };
+    </script>
+</head>
+<body>
+<h1>Denzel's must-watch movies</h1>
+<img class="image" src="https://m.media-amazon.com/images/M/MV5BMjE5NDU2Mzc3MV5BMl5BanBnXkFtZTcwNjAwNTE5OQ@@._V1_SY1000_SX750_AL_.jpg)">
+<div id="movie">
+    <h2>Title</h2>
+    <div id="movie-title"></div>
+    <h2>Synopsis</h2>
+    <div id="movie-synopsis"></div>
+    <h2>Metascore</h2>
+    <div id="movie-metascore"></div>
+</div>
+<div id="api">
+    <h2>API routes</h2>
+    <ul>
+        <li>GET /movies/populate
+            <br/>
+            Populate the database with all the Denzel's movies from IMDb.
+        </li>
+        <br/>
+        <li>GET /movies
+            <br/>
+            Fetch a random must-watch movie.
+        </li>
+        <br/>
+        <li>GET /movies/:id
+            <br/>
+            Fetch a specific movie.
+        </li>
+        <br/>
+        <li>GET /movies/search
+            <br/>
+            Search for Denzel's movies.
+        </li>
+        <br/>
+        <li>POST /movies/:id
+            <br/>
+            Save a watched date and a review.
+        </li>
+        <br/>
+        <li>GET /graphql
+            <br/>
+            Access to GRAPHQL API.
+        </li>
+    </ul>
+</div>
+</body>
+</html>

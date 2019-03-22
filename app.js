@@ -72,10 +72,16 @@ app.use('/graphql', expressGraphql({
     graphiql: true
 }));
 
+app.use(express.static(__dirname + '/public'));
+
 async function importMovies() {
     const movies = await imdb(DENZEL_IMDB_ID);
     movie.importDatabase(movies);
 }
+
+app.get('/', function (req, res) {
+    res.sendfile('./public/index.html');
+});
 
 app.get('/movies/populate', function (req, res) {
     importMovies();
